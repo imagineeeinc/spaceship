@@ -6,6 +6,12 @@
 	import '@mdi/font/css/materialdesignicons.css'
 	
 	let applications = writable([])
+	let app = writable({
+		name: 'Spaceship',
+		theme: {
+			embelm: './spaceship.png'
+		}
+	})
 
 	onMount(() => {
 		config.subscribe(value => {
@@ -17,12 +23,17 @@
 			}
 			applications.set(list)
 
-			// inject css
+			app.set(value)
+			
 			let style = document.createElement('style')
 			style.type = 'text/css'
-			style.innerHTML = `.appicon {
-				--width: ${value.theme.icon_size} !important;
-			}`
+			style.innerHTML = `
+.appicon {
+	--width: ${value.theme.icon_size} !important;
+}
+.app {
+	background: ${value.theme.background} !important;
+}`
 			document.head.appendChild(style)
 		})
 	})
@@ -36,6 +47,10 @@
 </script>
 
 <div id="app">
+	<nav>
+		<img id="embelm" src="{$app.theme.embelm}" alt="{$config.name}">
+		<h1>{$app.name}</h1>
+	</nav>
 	<div id="content">
 		<div id="applications">
 			{#each $applications as app}
@@ -66,18 +81,57 @@
 </div>
 
 <style>
-	#app {
-		height: 100%;
-		width: 100%;
+	nav {
+		height: 40px;
+		width: calc(100% - 40px);
+		margin: 0;
+		padding: 10px;
+		background: rgba(0,0,0,0);
+		backdrop-filter: blur(10px);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: start;
+		gap: 20px;
+		user-select: none;
+		border-radius: 20px;
+
+		position: fixed;
+		top: 10px;
+		left: 10px;
+		z-index: 2;
+	}
+	#embelm {
+		width: 40px;
+		height: 40px;
+		margin: 0;
+		padding: 0;
+		-webkit-user-drag: none;
+	}
+	h1 {
+		font-size: 20px;
+		font-weight: bold;
 		margin: 0;
 		padding: 0;
 	}
-	#content {
-		height: calc(100vh - 40px);
+	#app {
+		height: 100vh;
 		width: 100%;
 		margin: 0;
 		padding: 0;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
 		overflow: hidden;
+		background: var(--bg);
+	}
+	#content {
+		height: 100vh;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		padding-top: 60px;
+		overflow-y: auto;
 	}
 	#applications {
 		display: flex;
@@ -91,7 +145,6 @@
 		max-width: 1000px;
     margin: 0 auto;
     width: calc(100% - 40px);
-		height: 100%;
 		padding: 20px;
 		overflow-y: auto;
 	}
