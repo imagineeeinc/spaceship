@@ -1,0 +1,47 @@
+name: Spaceship
+application_sort: none
+
+application:
+  - name: Github
+    url: https://github.com
+    icon: https://cdn.simpleicons.org/github
+    invert_icon: true
+    desc: "Git code hosting"
+    tags: [Dev, Account]
+  - name: Pairdrop
+    url: https://pairdrop.net
+    icon: mdi-radar
+    desc: "Peer to Peer file sharing"
+    tags: [Tools]
+  - name: Mastodon
+    url: https://mastodon.social
+    icon: https://cdn.simpleicons.org/mastodon
+    desc: "Federated Social networking"
+    newtab: true
+    tags: [Social, Account]
+
+tags:
+  - name: Dev
+    color: orange
+  - name: Social
+    color: skyblue
+  - name: Tools
+    color: springgreen
+  - name: Account
+    color: seagreen
+
+bookmarks:
+  - name: Profiles
+    links:
+    - name: Github
+      url: https://github.com/imagineeeinc
+      icon: https://cdn.simpleicons.org/github
+    - name: Mastodon
+      url: https://mastodon.social/@imagineee
+      icon: https://cdn.simpleicons.org/mastodon
+    - name: Website
+      url: https://imagineee.web.app
+
+theme:
+  background: 'linear-gradient(180deg, rgba(0,0,20,1) 0%, rgba(0,0,65,1) 100%)'
+  embelm: './spaceship.png'
