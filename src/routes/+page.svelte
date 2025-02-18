@@ -24,7 +24,7 @@
 			applications.set(list)
 
 			app.set(value)
-			
+
 			let style = document.createElement('style')
 			style.type = 'text/css'
 			style.innerHTML = `
@@ -46,7 +46,7 @@
 	}
 </script>
 
-<div id="app">
+<div id="app" style="{$app.theme.background?`background: ${$app.theme.background};background-position: center;background-size: cover;background-repeat: no-repeat;`: ''}">
 	<nav>
 		<img id="embelm" src="{$app.theme.embelm}" alt="{$config.name}">
 		<h1>{$app.name}</h1>
@@ -54,8 +54,6 @@
 	<div id="content">
 		<div id="applications">
 			{#each $applications as app}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<a href="{app.url}" target="{app.newtab ? '_blank' : '_self'}" class="applink">
 					<div class="application">
 						{#if !app.icon}
@@ -86,7 +84,6 @@
 		width: calc(100% - 40px);
 		margin: 0;
 		padding: 10px;
-		background: rgba(0,0,0,0);
 		backdrop-filter: blur(10px);
 		display: flex;
 		flex-direction: row;
@@ -119,9 +116,6 @@
 		width: 100%;
 		margin: 0;
 		padding: 0;
-		background-position: center;
-		background-size: cover;
-		background-repeat: no-repeat;
 		overflow: hidden;
 		background: var(--bg);
 	}
@@ -156,10 +150,13 @@
     justify-content: center;
 
 		width: calc(calc(1000px / 4) - 80px);
+		backdrop-filter: blur(20px);
 		cursor: pointer;
 		padding: 20px;
 		border-radius: 20px;
 		transition-duration: .1s;
+		user-select: none;
+		-webkit-user-drag: none;
 	}
 	.application:hover {
 		outline: 3px solid var(--accent);

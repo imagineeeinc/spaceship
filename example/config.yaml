@@ -45,3 +45,4 @@ bookmarks:
 theme:
   background: 'linear-gradient(180deg, rgba(0,0,20,1) 0%, rgba(0,0,65,1) 100%)'
   embelm: './spaceship.png'
+  icon_size: 100px
