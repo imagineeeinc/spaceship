@@ -16,9 +16,12 @@ conf.subscribe((value) => config.set(parse(value)))
 
 export function updateConfig() {
 	if (browser) {
+		let d = new FormData()
+		d.append("data", get(conf))
+		console.log(d)
 		fetch('./api/v1/conf', {
 			method: 'POST',
-			body: get(conf)
+			body: d
 		})
 	}
 }

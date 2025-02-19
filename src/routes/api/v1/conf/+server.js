@@ -6,7 +6,9 @@ export function GET() {
 
 export async function POST({ request }) {
 	try {
-		let conf = await request.text()
+		let data = await request.formData()
+		let conf = data.get('data')
+		// let conf = await request.text()
 		file.setConfig(conf)
 		return new Response('OK')
 	} catch (e) {
