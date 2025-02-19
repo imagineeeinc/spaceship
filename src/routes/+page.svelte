@@ -3,7 +3,9 @@
 	import { conf, config } from '$lib/config.js'
 	import { writable } from 'svelte/store'
 	import { onMount } from 'svelte'
+	import Settings from '$lib/components/settings.svelte';
 	import '@mdi/font/css/materialdesignicons.css'
+	conf.set(data.conf)
 	
 	let applications = writable([])
 	let app = writable({
@@ -24,17 +26,6 @@
 			applications.set(list)
 
 			app.set(value)
-
-			let style = document.createElement('style')
-			style.type = 'text/css'
-			style.innerHTML = `
-.appicon {
-	--width: ${value.theme.icon_size} !important;
-}
-.app {
-	background: ${value.theme.background} !important;
-}`
-			document.head.appendChild(style)
 		})
 	})
 	function open(url, newtab) {
@@ -44,18 +35,21 @@
 			window.location.href = url
 		}
 	}
+	var settings = writable(false)
 </script>
 
-<div id="app" style="{$app.theme.background?`background: ${$app.theme.background};background-position: center;background-size: cover;background-repeat: no-repeat;`: ''}">
+<div id="app">
 	<nav>
 		<img id="embelm" src="{$app.theme.embelm}" alt="{$config.name}">
 		<h1>{$app.name}</h1>
+		<div id="nav-right-align">
+			<button class="m-icon transperent" onclick={() => settings.set(true)}>settings</button>
+		</div>
 	</nav>
 	<div id="content">
 		<div id="applications">
 			{#each $applications as app}
-				<a href="{app.url}" target="{app.newtab ? '_blank' : '_self'}" class="applink">
-					<div class="application">
+				<a href="{app.url}" target="{app.newtab ? '_blank' : '_self'}" class="application">
 						{#if !app.icon}
 							<span class="appicon mdi mdi-application"></span>
 						{:else}
@@ -71,12 +65,14 @@
 							<br>
 							<span class="appdesc">{app.desc}</span>
 						{/if}
-					</div>
 				</a>
 			{/each}
 		</div>
 	</div>
 </div>
+{#if $settings}
+	<Settings close={settings} />
+{/if}
 
 <style>
 	nav {
@@ -91,12 +87,15 @@
 		justify-content: start;
 		gap: 20px;
 		user-select: none;
-		border-radius: 20px;
+		border-radius: 10px;
 
 		position: fixed;
 		top: 10px;
 		left: 10px;
 		z-index: 2;
+	}
+	#nav-right-align {
+		margin-left: auto;
 	}
 	#embelm {
 		width: 40px;
@@ -117,7 +116,10 @@
 		margin: 0;
 		padding: 0;
 		overflow: hidden;
-		background: var(--bg);
+		background: var(--app-bg);
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
 	}
 	#content {
 		height: 100vh;
@@ -128,42 +130,61 @@
 		overflow-y: auto;
 	}
 	#applications {
-		display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
-		align-content: center;
-    gap: 20px;
-
-		max-width: 1000px;
+		gap: 20px;
+		max-width: var(--main-width);
     margin: 0 auto;
+		margin-bottom: 60px;
     width: calc(100% - 40px);
 		padding: 20px;
 		overflow-y: auto;
+	
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
 	}
+
+	@media (min-width: 300px) {
+		#applications {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 670px) {
+		#applications {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (min-width: 900px) {
+		#applications {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
 	.application {
-		align-self: stretch;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-		width: calc(calc(1000px / 4) - 80px);
-		backdrop-filter: blur(20px);
+		min-width: 100px;
+		width: calc(100% - 40px);
+		backdrop-filter: blur(var(--tile-blur));
 		cursor: pointer;
 		padding: 20px;
-		border-radius: 20px;
+		border-radius: 10px;
 		transition-duration: .1s;
 		user-select: none;
 		-webkit-user-drag: none;
+
+		text-decoration: none;
+		color: inherit;
+		background: var(--tile-bg);
 	}
 	.application:hover {
 		outline: 3px solid var(--accent);
 	}
-	.applink {
-		text-decoration: none;
-		color: inherit;
+	.application:active {
+		transform: scale(0.9);
 	}
 	.appname {
 		font-size: 16px;
@@ -173,7 +194,7 @@
 		font-size: 12px;
 	}
 	.appicon {
-		--width: calc(calc(1000px / 4) - 120px);
+		--width: calc(calc(var(--main-width) / 4) - 120px);
 	}
 	.appicon.mdi {
 		display: inline-block;

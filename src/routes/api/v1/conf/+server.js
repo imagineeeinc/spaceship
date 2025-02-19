@@ -5,8 +5,11 @@ export function GET() {
 }
 
 export async function POST({ request }) {
-	const formData = await request.formData()
-	const conf = formData.get('conf')
-	file.setConfig(conf)
-	return new Response('OK')
+	try {
+		let conf = await request.text()
+		file.setConfig(conf)
+		return new Response('OK')
+	} catch (e) {
+		return new Response(e.message, { status: 500 })
+	}
 }

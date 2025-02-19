@@ -4,6 +4,7 @@
 
 <svelte:head>
 	<title>Spaceship</title>
+	<link rel="stylesheet" href="./theme.css">
 </svelte:head>
 
 <slot />

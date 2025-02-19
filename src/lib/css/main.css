@@ -1,11 +1,17 @@
 :root {
-	--text: rgb(251, 222, 242);
-	--background: rgb(34, 24, 31);
-	--primary: rgb(255, 167, 228);
-	--secondary: rgb(107, 0, 25);
-	--accent: rgb(254, 182, 191);
+	--text: #dedaff;
+  --background: #202128;
+  --primary: #2f27ce;
+  --secondary: #231ba7;
+  --accent: #a29eff;
 	--bg: var(--background);
 	--color: var(--text);
+
+  --app-bg: var(--bg);
+  --main-width: 1000px;
+
+  --tile-bg: rgba(0,0,0,0);
+  --tile-blur: 10px;
 }
 
 * {
@@ -24,6 +30,20 @@ body {
 	margin: 0;
 }
 
+.m-icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  user-select: none;
+}
 input, textarea, button, select, a {
   -webkit-tap-highlight-color: transparent;
   outline: none;
@@ -44,7 +64,7 @@ a:hover {
   color: var(--secondary);
 }
 button {
-  --width: 46px;
+  --width: 40px;
   height: var(--width);
   padding: 10px;
 	border: none;
@@ -55,7 +75,22 @@ button {
   margin: 5px;
   font: inherit;
 	color: inherit;
-} 
+}
+button.m-icon {
+  width: var(--width);
+  padding: 5px;
+}
+button.m-icon.transperent {
+  background: transparent;
+  outline: none;
+}
+button.m-icon:hover {
+  outline: 3px solid var(--secondary);
+}
+button.m-icon.transperent:hover {
+  background: rgba(255,255,255,0.1);
+  outline: none;
+}
 input:not([type='checkbox']), select, textarea {
   --width: 46px;
   height: var(--width);
@@ -72,7 +107,7 @@ button:hover, button:focus-visible {
   outline: 3px solid var(--secondary);
 }
 button:active {
-  transform: scale(0.95) translateY(5px);
+  transform: scale(0.9);
   background: var(--tertiary);
 }
 
